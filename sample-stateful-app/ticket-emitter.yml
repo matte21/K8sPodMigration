@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-emitter
+  labels:
+    app: ticket-emitter
+spec:
+  ports:
+  - port: 8080
+    name: ticket
+  clusterIP: None
+  selector:
+    app: ticket-emitter
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ticket-emitter
+spec:
+  selector:
+    matchLabels:
+      app: ticket-emitter
+  serviceName: "ticket-emitter"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ticket-emitter
+        want-checkpoint: "true"
+    spec:
+      containers:
+      - name: ticket-emitter
+        image: mattedocker/ticket-emitter:latest
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 8080
+          name: ticket
+

@@ -1,0 +1,10 @@
+.vagrant/
+
+kubeconfig
+
+cluster-setup/join-command
+
+ubuntu-bionic-18.04-cloudimg-console.log
+
+cluster-setup/modified-kubelet
+
